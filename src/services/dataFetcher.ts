@@ -27,7 +27,22 @@ export const fetchAndParseData = async (): Promise<MemorialPerson[]> => {
     
     return data;
   } catch (error) {
-    console.error('Failed to parse Excel file, returning empty array:', error);
-    return [];
+    console.warn('Failed to fetch/parse Excel, using mock data:', error);
+    let mockData: MemorialPerson[] = Array.from({length: 150}).map((_, i) => {
+      const t = Math.random();
+      const w = (Math.random() - 0.5) * 0.08;
+      return {
+        Index: String(i+1),
+        Name: "Mock Data (Please upload file)",
+        الاسم: "بيانات تجريبية (يرجى رفع ملف victims_data.xlsx في public)",
+        Age: i % 7 === 0 ? "10" : (i % 3 === 0 ? "65" : "25"),
+        Born: "2000-01-01",
+        Sex: i % 2 === 0 ? 'm' : 'f',
+        ID: "00000",
+        lat: 31.23 + (t * 0.34) + w * -0.66,
+        lng: 34.22 + (t * 0.30) + w * 0.75
+      };
+    });
+    return mockData;
   }
 };
